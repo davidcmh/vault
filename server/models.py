@@ -1,38 +1,37 @@
-from sqlalchemy import Column, ForeignKey, Integer, String, Table
-from sqlalchemy.orm import relationship
-
-from base import Base
+from base import db
 
 
-class Deck(Base):
+class Deck(db.Model):
     __tablename__ = 'decks'
 
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
 
 
-class Tag(Base):
+class Tag(db.Model):
     __tablename__ = 'tags'
 
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
 
 
-notes_tags_association = Table(
+notes_tags_association = db.Table(
     'notes_tags',
-    Base.metadata,
-    Column('note_id', Integer, ForeignKey('notes.id')),
-    Column('tag_id', Integer, ForeignKey('tags.id'))
+    db.Column('note_id', db.Integer, db.ForeignKey('notes.id'), primary_key=True),
+    db.Column('tag_id', db.Integer, db.ForeignKey('tags.id'), primary_key=True)
 )
 
 
-class Note(Base):
+class Note(db.Model):
     __tablename__ = 'notes'
 
-    id = Column(Integer, primary_key=True)
-    deck_id = Column(Integer, ForeignKey('decks.id'))
-    deck = relationship('Deck', backref="notes")
-    anki_id = Column(Integer)
-    title = Column(String)
-    content = Column(String)
-    tags = relationship('Tag', secondary=notes_tags_association)
+    id = db.Column(db.Integer, primary_key=True)
+    deck_id = db.Column(db.Integer, db.ForeignKey('decks.id'))
+    deck = db.relationship('Deck', backref="notes")
+    anki_id = db.Column(db.Integer)
+    title = db.Column(db.String)
+    content = db.Column(db.String)
+    tags = db.relationship('Tag',
+                           secondary=notes_tags_association,
+                           lazy='subquery',
+                           backref=db.backref('notes', lazy=True))
