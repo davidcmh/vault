@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 
 import { getNotes } from '../actions'
+import NoteCard from './NoteCard';
 
 
 class NoteList extends React.Component {
@@ -10,33 +11,26 @@ class NoteList extends React.Component {
     this.props.getNotes();
   }
 
-  renderItem = ({ item }) => (
-    <View style={styles.item}>
-      <Text>{item.title}</Text>
-    </View>
-  );
-
   render() {
-    // add 'key' property required by FlatList
-    let items = this.props.notes.items.map(note => ({ key: note.id.toString(), ...note }));
+    let noteNodes = this.props.notes.items.map(function(note) {
+      return (
+        <NoteCard title={note.title} expanded={false} key={note.id.toString()}>
+          <Text>{note.content}</Text>
+        </NoteCard>
+      );
+    });
+
     return (
-      <FlatList
-        styles={styles.container}
-        data={items}
-        renderItem={this.renderItem}
-      />
+      <View style={styles.container}>
+        {noteNodes}
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
-  },
-  item: {
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc'
+    flexDirection: 'column'
   }
 });
 
