@@ -5,6 +5,7 @@ class Deck(db.Model):
     __tablename__ = 'decks'
 
     id = db.Column(db.Integer, primary_key=True)
+    anki_id = db.Column(db.Integer)
     name = db.Column(db.String)
 
 
@@ -26,9 +27,9 @@ class Note(db.Model):
     __tablename__ = 'notes'
 
     id = db.Column(db.Integer, primary_key=True)
+    anki_id = db.Column(db.Integer)
     deck_id = db.Column(db.Integer, db.ForeignKey('decks.id'))
     deck = db.relationship('Deck', backref="notes")
-    anki_id = db.Column(db.Integer)
     title = db.Column(db.String)
     content = db.Column(db.String)
     tags = db.relationship('Tag',
