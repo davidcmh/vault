@@ -9,6 +9,12 @@ import reducers from './app/reducers'
 import NoteList from './app/components/NoteList';
 
 
+// fix for react native upgrade, referenced here: https://github.com/facebook/react-native/issues/9599
+// and here: https://github.com/davidvuong/ddfa-rn-app/commit/e54a799a92d28a894b7c1ad6d2e3efc727922069
+if (typeof global.self === 'undefined') {
+  global.self = global;
+}
+
 const client = axios.create({
   baseURL: 'http://localhost:5000',
   responseType: 'json'
