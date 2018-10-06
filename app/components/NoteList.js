@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { Text, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 
 import { getNotes } from '../actions'
@@ -12,28 +12,19 @@ class NoteList extends React.Component {
   }
 
   render() {
-    let noteNodes = this.props.notes.items.map(function(note) {
-      return (
-        <NoteCard title={note.title} expanded={false} key={note.id.toString()}>
-          <Text>{note.content}</Text>
-        </NoteCard>
-      );
-    });
-
     return (
-      <View style={styles.container}>
-        <Text>Note count: {noteNodes.length}</Text>
-        {noteNodes}
-      </View>
+        <FlatList
+          data={this.props.notes.items}
+          renderItem={({ item }) => (
+            <NoteCard title={item.title} expanded={false}>
+              <Text>{item.content}</Text>
+            </NoteCard>
+          )}
+          keyExtractor={item => item.id.toString()}
+        />
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'column'
-  }
-});
 
 const mapStateToProps = state => {
   return {
