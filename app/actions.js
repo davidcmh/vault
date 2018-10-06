@@ -3,8 +3,10 @@ function getNotes(user) {
     type: 'GET_NOTES',
     payload: {
       request: {
-        url: '/v1/notes'
-      }
+        method: 'post',
+        url: '/v1/notes',
+        data: {page: 3, pagesize: 15}
+      },
     }
   };
 }

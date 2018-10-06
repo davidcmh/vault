@@ -22,6 +22,7 @@ class NoteList extends React.Component {
 
     return (
       <View style={styles.container}>
+        <Text>Note count: {noteNodes.length}</Text>
         {noteNodes}
       </View>
     );

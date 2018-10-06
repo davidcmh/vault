@@ -3,7 +3,7 @@ import { combineReducers } from "redux";
 const initialNotesState = {
   isFetching: false,
   items: []
-}
+};
 
 function notesReducer(state = initialNotesState, action) {
   switch (action.type) {
@@ -24,7 +24,7 @@ function notesReducer(state = initialNotesState, action) {
     default:
         return state;
   }
-};
+}
 
 
 module.exports = combineReducers({ notes: notesReducer });
