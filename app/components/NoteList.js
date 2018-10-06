@@ -8,7 +8,7 @@ import NoteCard from './NoteCard';
 
 class NoteList extends React.Component {
   componentDidMount() {
-    this.props.getNotes();
+    this.props.getNotes(this.props.notes.page);
   }
 
   render() {
@@ -21,6 +21,10 @@ class NoteList extends React.Component {
             </NoteCard>
           )}
           keyExtractor={item => item.id.toString()}
+          onEndReachedThreshold={0.5}
+          onEndReached={() => {
+            this.props.getNotes(this.props.notes.page);
+          }}
         />
     );
   }

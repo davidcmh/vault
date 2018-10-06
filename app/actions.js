@@ -1,11 +1,13 @@
-function getNotes(user) {
+function getNotes(page) {
   return {
     type: 'GET_NOTES',
     payload: {
       request: {
         method: 'post',
         url: '/v1/notes',
-        data: {page: 3, pagesize: 15}
+        data: {
+          page,
+          pageSize: 25}
       },
     }
   };

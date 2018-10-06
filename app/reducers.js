@@ -2,18 +2,19 @@ import { combineReducers } from "redux";
 
 const initialNotesState = {
   isFetching: false,
-  items: []
+  items: [],
+  page: 0
 };
 
 function notesReducer(state = initialNotesState, action) {
   switch (action.type) {
     case 'GET_NOTES':
-      return { ...state, isFetching: true };
+      return { ...state, isFetching: true, page: state.page + 1 };
     case 'GET_NOTES_SUCCESS':
       return {
         ...state,
         isFetching: false,
-        items: action.payload.data
+        items: state.items.concat(action.payload.data)
       };
     case 'GET_NOTES_FAIL':
       return {
